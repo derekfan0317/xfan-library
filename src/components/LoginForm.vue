@@ -12,7 +12,6 @@
                 id="username"
                 name="username"
                 class="form-control"
-                required
                 v-model="formData.username"
               />
             </div>
@@ -23,10 +22,6 @@
                 id="password"
                 name="password"
                 class="form-control"
-                minlength="4"
-                maxlength="10"
-                required
-                pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$"
                 v-model="formData.password"
               />
             </div>
@@ -60,7 +55,6 @@
               id="reason"
               name="reason"
               rows="3"
-              required
               v-model="formData.reason"
             ></textarea>
           </div>
