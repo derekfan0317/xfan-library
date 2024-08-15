@@ -12,8 +12,11 @@
                 id="username"
                 name="username"
                 class="form-control"
+                @blur="() => validateName(true)"
+                @input="() => validateName(false)"
                 v-model="formData.username"
               />
+              <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
             </div>
             <div class="col-md-6 col-sm-6">
               <label for="password" class="form-label">Password:</label>
@@ -22,8 +25,11 @@
                 id="password"
                 name="password"
                 class="form-control"
+                @blur="() => validatePassword(true)"
+                @input="() => validatePassword(false)"
                 v-model="formData.password"
               />
+              <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
             </div>
           </div>
           <div class="row mb-3">
@@ -41,12 +47,19 @@
             </div>
             <div class="col-md-6 col-sm-6">
               <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" required v-model="formData.gender">
+              <select
+                class="form-select"
+                id="gender"
+                @blur="() => validatePassword(true)"
+                @input="() => validatePassword(false)"
+                v-model="formData.gender"
+              >
                 <option value="female">Female</option>
                 <option value="male">Male</option>
                 <option value="other">Other</option>
               </select>
             </div>
+            <div v-if="errors.gender" class="text-danger">{{ errors.gender }}</div>
           </div>
           <div class="mb-3">
             <label for="reason" class="form-label">Reason For Joining:</label>
@@ -55,8 +68,11 @@
               id="reason"
               name="reason"
               rows="3"
+              @blur="validateReason(true)"
+              @input="validateReason(false)"
               v-model="formData.reason"
             ></textarea>
+            <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
           </div>
 
           <div class="text-center">
@@ -105,9 +121,21 @@ const formData = ref({
 const submittedCards = ref([])
 
 const submitForm = () => {
-  submittedCards.value.push({
-    ...formData.value
-  })
+  validateName(true)
+  validatePassword(true)
+  validateGender(true)
+  validateReason(true)
+  if (
+    !errors.value.username &&
+    !errors.value.password &&
+    !errors.value.gender &&
+    !errors.value.reason
+  ) {
+    submittedCards.value.push({
+      ...formData.value
+    })
+    clearForm()
+  }
 }
 const clearForm = () => {
   formData.value = {
@@ -116,6 +144,54 @@ const clearForm = () => {
     isAustralian: false,
     reason: '',
     gender: ''
+  }
+}
+const errors = ref({
+  username: null,
+  password: null,
+  resident: null,
+  reason: null,
+  gender: null
+})
+const validateName = (blur) => {
+  if (formData.value.username.length < 3) {
+    if (blur) errors.value.username = 'Name must be at least 3 characters'
+  } else {
+    errors.value.username = null
+  }
+}
+const validatePassword = (blur) => {
+  const password = formData.value.password
+  const minLength = 8
+  const hasUppercase = /[A-Z]/.test(password)
+  const hasLowercase = /[a-z]/.test(password)
+  const hasNumber = /[\d]/.test(password)
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  if (password < minLength) {
+    if (blur) errors.value.password = `Password must be at least ${minLength} characters`
+  } else if (!hasUppercase) {
+    if (blur) errors.value.password = 'Password must contain at least one uppercase letter.'
+  } else if (!hasLowercase) {
+    if (blur) errors.value.password = 'Password must contain at least one lowercase letter.'
+  } else if (!hasNumber) {
+    if (blur) errors.value.password = 'Password must contain at least one number.'
+  } else if (!hasSpecialChar) {
+    if (blur) errors.value.password = 'Password must contain at least one special character.'
+  }
+}
+const validateGender = (blur) => {
+  if (!formData.value.gender) {
+    if (blur) errors.value.gender = 'Gender is required'
+  } else {
+    errors.value.gender = null
+  }
+}
+const validateReason = (blur) => {
+  const wordCount = formData.value.reason.trim().split(/\s+/).length
+  if (wordCount < 3) {
+    if (blur) errors.value.reason = 'Reason must contain at least 3 words'
+  } else {
+    errors.value.reason = null
   }
 }
 </script>
