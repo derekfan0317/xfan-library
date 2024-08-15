@@ -26,6 +26,7 @@
                 minlength="4"
                 maxlength="10"
                 required
+                pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$"
                 v-model="formData.password"
               />
             </div>
