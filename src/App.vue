@@ -1,11 +1,18 @@
 <script setup>
 // import JSON from './components/JSON.vue'
+import BHeader from './components/BHeader.vue'
 import LoginForm from './components/LoginForm.vue'
 </script>
 
 <template>
-  <!-- <JSON /> -->
-  <LoginForm />
+  <header>
+    <BHeader />
+  </header>
+
+  <main>
+    <LoginForm />
+    <!-- <JSONLab /> -->
+  </main>
 </template>
 
 <style scoped>
