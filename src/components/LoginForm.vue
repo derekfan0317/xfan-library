@@ -3,12 +3,15 @@ import { ref } from 'vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
+const messages = ref({})
+
 const formData = ref({
   username: '',
   password: '',
   isAustralian: false,
   reason: '',
-  gender: ''
+  gender: '',
+  suburb: 'Clayton'
 })
 
 const submittedCards = ref([])
@@ -77,6 +80,20 @@ const validateConfirmPassword = (blur) => {
     if (blur) errors.value.confirmPassword = 'Passwords do not match.'
   } else {
     errors.value.confirmPassword = null
+  }
+}
+const validateReason = (blur) => {
+  const reasonText = formData.value.reason.trim()
+  const charCount = reasonText.length
+  if (charCount < 10) {
+    if (blur) errors.value.reason = 'Reason must contain at least 10 characters'
+  } else {
+    errors.value.reason = null
+  }
+  if (reasonText.includes('friend')) {
+    messages.value.reason = 'Great to have a friend'
+  } else {
+    messages.value.reason = null
   }
 }
 </script>
@@ -155,9 +172,18 @@ const validateConfirmPassword = (blur) => {
             <textarea
               class="form-control"
               id="reason"
+              name="reason"
               rows="3"
+              @blur="validateReason(true)"
+              @input="validateReason(false)"
               v-model="formData.reason"
             ></textarea>
+            <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
+            <p v-if="messages.reason" style="color: green">{{ messages.reason }}</p>
+          </div>
+          <div class="mb-3">
+            <label for="reason" class="form-label">Suburb</label>
+            <input type="text" class="form-control" id="suburb" v-bind:value="formData.suburb" />
           </div>
           <div class="text-center">
             <button type="submit" class="btn btn-primary me-2">Submit</button>
