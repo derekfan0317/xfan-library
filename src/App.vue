@@ -13,6 +13,7 @@ import BHeader from './components/BHeader.vue'
     <main class="main-box">
       <!-- <LoginForm /> -->
       <!-- <JSONLab /> -->
+
       <router-view></router-view>
     </main>
   </div>

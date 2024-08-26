@@ -12,11 +12,26 @@
         <li class="nav-item">
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
         </li>
+        <li>
+          <button v-if="isAuthenticated" @click="logout" class="btn btn-secondary">Logout</button>
+        </li>
       </ul>
     </header>
   </div>
 </template>
-<script></script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const isAuthenticated = ref(localStorage.getItem('isAuthenticated') === 'true')
+const router = useRouter()
+
+const logout = () => {
+  localStorage.removeItem('isAuthenticated')
+  isAuthenticated.value = false
+  router.push('/login')
+}
+</script>
 
 <style scoped>
 .b-example-divider {
