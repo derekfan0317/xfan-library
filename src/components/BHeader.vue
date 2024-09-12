@@ -6,11 +6,21 @@
       <ul class="nav nav-pills">
         <li class="nav-item">
           <router-link to="/" class="nav-link" active-class="active" aria-current="page"
-            >Home (Week 5)</router-link
+            >Home</router-link
           >
         </li>
         <li class="nav-item">
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/FireLogin" class="nav-link" active-class="active"
+            >Firebase Login</router-link
+          >
+        </li>
+        <li class="nav-item">
+          <router-link to="/FireRegister" class="nav-link" active-class="active"
+            >Firebase Register</router-link
+          >
         </li>
         <li>
           <button v-if="isAuthenticated" @click="logout" class="btn btn-secondary">Logout</button>
