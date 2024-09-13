@@ -25,27 +25,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+// import { ref } from 'vue'
+// import { useRouter } from 'vue-router'
 
-const username = ref('')
-const password = ref('')
-const errorMessage = ref('')
-const isAuthenticated = ref(false)
-const router = useRouter()
+// const username = ref('')
+// const password = ref('')
+// const errorMessage = ref('')
+// const isAuthenticated = ref(false)
+// const router = useRouter()
 
-const login = () => {
-  console.log('Login method triggered')
-  if (username.value === 'xinyi' && password.value === '34245421') {
-    isAuthenticated.value = true
-    localStorage.setItem('isAuthenticated', 'true')
-    console.log('Redirecting to Home')
-    router.push({ name: 'Home' })
-  } else {
-    errorMessage.value = 'incorrect username or password'
-    console.log('Login failed')
-  }
-}
+// const login = () => {
+//   console.log('Login method triggered')
+//   if (username.value === 'xinyi' && password.value === '34245421') {
+//     isAuthenticated.value = true
+//     localStorage.setItem('isAuthenticated', 'true')
+//     console.log('Redirecting to Home')
+//     router.push({ name: 'Home' })
+//   } else {
+//     errorMessage.value = 'incorrect username or password'
+//     console.log('Login failed')
+//   }
+// }
 </script>
 
 <style></style>

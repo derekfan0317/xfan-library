@@ -13,6 +13,9 @@
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
         </li>
         <li class="nav-item">
+          <router-link to="/Login" class="nav-link" active-class="active">Login</router-link>
+        </li>
+        <li class="nav-item">
           <router-link to="/FireLogin" class="nav-link" active-class="active"
             >Firebase Login</router-link
           >
@@ -30,16 +33,29 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'vue-router'
+const auth = getAuth()
+const isAuthenticated = ref(false)
+console.log('Firebase Auth initialized:', auth)
 
-const isAuthenticated = ref(localStorage.getItem('isAuthenticated') === 'true')
 const router = useRouter()
-
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    isAuthenticated.value = !!user
+  })
+})
 const logout = () => {
-  localStorage.removeItem('isAuthenticated')
-  isAuthenticated.value = false
-  router.push('/login')
+  signOut(getAuth())
+    .then(() => {
+      isAuthenticated.value = false
+      router.push('/FireLogin')
+      console.log('User logged out successfully')
+    })
+    .catch((error) => {
+      console.error('Error: ', error)
+    })
 }
 </script>
 

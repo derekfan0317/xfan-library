@@ -16,10 +16,19 @@ const router = useRouter()
 const auth = getAuth()
 const register = () => {
   signInWithEmailAndPassword(getAuth(), email.value, password.value)
-    .then((data) => {
+    .then((userCredential) => {
+      const user = userCredential.user
       console.log('Firebase Login Successful!')
       router.push('/')
       console.log(auth.currentUser)
+      console.log('Role:', user.displayName)
+      if (user.displayName === 'admin') {
+        router.push('/admin')
+      } else if (user.displayName === 'student') {
+        router.push('/student')
+      } else {
+        console.log('Unknown role')
+      }
     })
     .catch((error) => {
       console.log(error.code)

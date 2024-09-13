@@ -12,15 +12,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
 
-const app = createApp(App)
-app.use(PrimeVue, {
-  theme: {
-    preset: Aura
-  }
-})
-app.use(router)
-app.mount('#app')
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyCgvC7yx33eGHIWqP7Z-NaviRT6gAbvQGc',
@@ -33,3 +24,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 initializeApp(firebaseConfig)
+const app = createApp(App)
+app.use(PrimeVue, {
+  theme: Aura
+})
+app.use(router)
+app.mount('#app')
