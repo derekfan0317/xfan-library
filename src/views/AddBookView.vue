@@ -9,7 +9,7 @@
       <div>
         <label for="name">Name:</label> <input type="text" v-model="name" id="name" required />
       </div>
-      <button type="submit">Add Book</button>
+      <button type="submit">Add Capitalized Book</button>
     </form>
     <h1>Update Book</h1>
     <form @submit.prevent="updateBook">
@@ -37,17 +37,9 @@
 <script setup>
 import { ref } from 'vue'
 import db from '../firebase/init.js'
-import {
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-  doc
-} from 'firebase/firestore'
+import { collection, query, where, getDocs, updateDoc, deleteDoc, doc } from 'firebase/firestore'
 import BookList from '../components/BookList.vue'
+import axios from 'axios'
 
 const isbn = ref('')
 const name = ref('')
@@ -62,21 +54,21 @@ const addBook = async () => {
       alert('ISBN must be a valid number')
       return
     }
-    const dulpCheck = query(collection(db, 'books'), where('isbn', '==', isbnNumber))
-    const querySnapshot = await getDocs(dulpCheck)
 
-    if (!querySnapshot.empty) {
-      alert('ISBN already exists in the database.')
-      return
-    }
-    await addDoc(collection(db, 'books'), { isbn: isbnNumber, name: name.value })
+    const response = await axios.post('https://addcapitalizebook-sqicjycbga-uc.a.run.app', {
+      isbn: isbnNumber,
+      name: name.value
+    })
+
     isbn.value = ''
     name.value = ''
-    alert('Book added successfully!')
+    alert('Book added successfully: ' + response.data.name)
   } catch (error) {
     console.error('Error adding book: ', error)
+    alert('Error adding book: ' + error.response?.data || error.message)
   }
 }
+
 const updateBook = async () => {
   try {
     const isbnNumber = Number(updateIsbn.value)
