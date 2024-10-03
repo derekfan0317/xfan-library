@@ -94,10 +94,11 @@ export default {
       } catch (error) {
         console.error('Error fetching weather data:', error)
       }
+    },
+    async searchByCity() {
+      const url = `http://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${apikey}`
+      await this.fetchWeatherData(url)
     }
-    // async searchByCity() {
-
-    // }
   }
 }
 </script>
