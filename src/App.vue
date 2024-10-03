@@ -1,12 +1,18 @@
 <script setup>
 // import JSON from './components/JSON.vue'
-import BHeader from './components/BHeader.vue'
 // import LoginForm from './views/HomeView.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import BHeader from './components/BHeader.vue'
+// import CountBookAPI from './views/CountBookAPI.vue'
+
+const route = useRoute()
+const showHeader = computed(() => route.name !== 'CountBookAPI')
 </script>
 
 <template>
   <div class="main-container">
-    <header>
+    <header v-if="showHeader">
       <BHeader />
     </header>
 

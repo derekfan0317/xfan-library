@@ -95,6 +95,9 @@ export default {
         console.error('Error fetching weather data:', error)
       }
     }
+    // async searchByCity() {
+
+    // }
   }
 }
 </script>
