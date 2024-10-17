@@ -71,6 +71,7 @@ import GetAllBookAPI from '../views/GetAllBookAPI.vue'
 //     component: GetAllBookAPI
 //   }
 // ]
+//new one
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
